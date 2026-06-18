@@ -26,7 +26,7 @@ resource "random_password" "db_password" {
 }
 
 # Hand it off to Northflank as a secret group.
-resource "northflank_secret" "app_secrets" {
+resource "northflank_secret_group" "app_secrets" {
   project_id  = "my-project"
   name        = "App Secrets"
   secret_type = "environment"
@@ -37,10 +37,24 @@ resource "northflank_secret" "app_secrets" {
     DB_HOST     = "db.internal"
     DB_PORT     = "5432"
   }
+
+  files = {
+    "/etc/app/config.json" = {
+      data     = base64encode("{\"env\": \"production\"}")
+      encoding = "utf-8"
+    }
+  }
+
+  docker_secret_mounts = {
+    "tls-cert" = {
+      data     = base64encode("--- certificate content ---")
+      encoding = "utf-8"
+    }
+  }
 }
 
 # Outputs for cross-module reference.
 output "secret_group_id" {
-  value       = northflank_secret.app_secrets.id
+  value       = northflank_secret_group.app_secrets.id
   description = "ID of the Northflank secret group."
 }

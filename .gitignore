@@ -36,3 +36,4 @@ terraform-provider-northflank
 
 # Raw (unprocessed) Northflank OpenAPI spec — regenerate with openapi/fetch.sh
 openapi/northflank-raw.json
+.idea

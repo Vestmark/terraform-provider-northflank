@@ -14,13 +14,15 @@ and Northflank services.
 
 | Resource | Description |
 |---|---|
-| `northflank_secret` | Manages a Northflank project secret group (environment variables) |
+| `northflank_secret_group` | Manages a Northflank project secret group (environment variables) |
 
 ## Data Sources
 
 | Data Source | Description |
 |---|---|
-| `northflank_secret` | Reads an existing Northflank project secret group |
+| `northflank_team` | Looks up a Northflank team by name |
+| `northflank_project` | Looks up a Northflank project by name |
+| `northflank_secret_group` | Reads an existing Northflank project secret group |
 
 ## Example usage
 
@@ -30,7 +32,7 @@ provider "northflank" {
   api_token = var.northflank_api_token
 }
 
-resource "northflank_secret" "app" {
+resource "northflank_secret_group" "app" {
   project_id  = "my-project"
   name        = "App Secrets"
   secret_type = "environment"
@@ -47,10 +49,10 @@ See [examples/](examples/) for more complete configurations.
 
 ## Import
 
-Secret groups can be imported using `<project_id>/<secret_id>`:
+Secret groups can be imported using `<project_id>/<secret_group_id>`:
 
 ```sh
-terraform import northflank_secret.app my-project/app-secrets
+terraform import northflank_secret_group.app my-project/app-secrets
 ```
 
 ## Development
