@@ -1,5 +1,11 @@
 # terraform-provider-northflank
 
+> **Unofficial community provider.** This project is maintained by [Vestmark](https://vestmark.com)
+> and is not affiliated with, endorsed by, or supported by Northflank Ltd.
+> The Northflank name and logo are trademarks of Northflank Ltd.
+> The API spec included in this repository is reproduced from the public endpoint
+> `https://api.northflank.com/v1/swagger-json` for interoperability purposes.
+
 Terraform provider for [Northflank](https://northflank.com) — currently targeting
 **secret group management** to allow variable handoff between Terraform provisioning
 and Northflank services.
