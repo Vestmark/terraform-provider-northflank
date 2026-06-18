@@ -23,3 +23,31 @@ jobs:
 
       - name: go test
         run: go test ./... -v -count=1 -timeout 30s
+
+  docs:
+    name: Docs up-to-date
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+
+      - name: Install tfplugindocs
+        run: go install github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs@latest
+
+      - name: Generate docs
+        run: tfplugindocs generate --provider-name northflank
+
+      - name: Check for diff
+        run: |
+          if ! git diff --exit-code docs/; then
+            echo "docs/ is out of date — run 'make docs' and commit the result"
+            exit 1
+          fi
